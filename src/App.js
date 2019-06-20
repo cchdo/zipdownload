@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import JSZip from 'jszip';
-import { saveAs } from 'file-saver/FileSaver';
+import { saveAs } from 'file-saver';
 
 class View extends Component {
   constructor(props){
@@ -53,7 +53,7 @@ class App extends Component {
     zipfile.file("citation.txt", "Please cite these data as follows: Data from P06 318M20091121")
 
     data.map((path) => {
-      zipfile.file("data/" + path.split("/")[5], fetch(path).then((res) => res.blob()));
+      return zipfile.file("data/" + path.split("/")[5], fetch(path).then((res) => res.blob()));
     })
     zipfile.generateAsync({type:"blob"}, (meta) => this.setState({progress:meta.percent})).then((blob) => saveAs(blob, "p6_bottle_data_part1.zip"))
   }
